@@ -1,0 +1,35 @@
+<% include ./header.ejs %>
+
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-12 mb-8 bg-white border-bottom shadow-sm">
+        <h3 class="my-0 mr-md-auto font-weight-normal">PROLITUS</h3>
+        <nav class="my-8 my-md-3 mr-md-6">
+         
+         <form action="/user/update" method="POST">
+
+          <div class="dropdown" style="right:45px">
+              <a class="btn btn-secondary dropdown-toggle"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Profile
+              </a>
+             <!-- <a class="p-2 text-dark" href="#">User</a> -->
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <!-- <a class="dropdown-item" href="/user/password">Change Password</a> -->
+
+                <a class="dropdown-item" href="/user/update">Update Details</a>
+                
+              </div>
+            </div>
+    
+           
+       </form>
+    
+        </nav>
+        </div>
+        
+    
+        
+        
+
+
+
+     

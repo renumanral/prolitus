@@ -1,0 +1,99 @@
+<% include ../include/header.ejs%>
+<% include ../include/nav2.ejs%>
+<% include ../include/style.ejs%>
+
+
+
+<% if(success != ''){ %>
+  <div class="container">
+      <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+          <%= success%>
+      </div>
+  </div>
+  <% }%>
+
+  <% if(error != ''){ %>
+  <div class="container">
+      <div class="alert alert-warning alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+          <%= error%>
+      </div>
+  </div>
+  <% }%>
+<h3 class="display-4" align=center><u>User Details</u></h3><br>
+
+<div class="container">
+
+<form>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">Email</label>
+            <input type="email" class="form-control" id="inputEmail4" value="<%= results.email%>" readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Name</label>
+            <input type="text" class="form-control" id="inputPassword4" value="<%= results.name%>" readonly>
+          </div>
+        </div>
+    
+     
+
+        <div class="form-row">
+                <div class="form-group col-md-4">
+                        <label for="inputPhone">Phone</label>
+                        <input type="number" class="form-control" id="inputPhone" value="<%= results.phone%>" readonly>
+                      </div>
+          <div class="form-group col-md-4">
+            <label for="inputHobbies">Hobbies</label>
+            <input type="text" class="form-control" id="inputHobbies" value="<%= results.hobbies%>" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputGender">Gender</label>
+            <input type="text" class="form-control" id="inputGender" value="<%= results.gender%>" readonly>
+
+          </div>
+          </div>
+
+          <div class="form-row">
+                <div class="form-group col-md-6">
+                        <label for="inputStatus">Marital Status</label>
+                        <input type="text" class="form-control" id="inputStatus" value="<%= results.marital_status%>" readonly>
+                      </div>
+          <div class="form-group col-md-6">
+            <label for="inputPin">Pin</label>
+            <input type="number" class="form-control" id="inputPin" value="<%= results.pin%>" readonly>
+          </div>
+          </div>
+      
+
+        <div class="form-row">
+                <div class="form-group col-md-4">
+                        <label for="inputCountry">Country</label>
+                        <input type="text" class="form-control" id="inputCountry" value="<%= results.country%>" readonly>
+                      </div>
+          <div class="form-group col-md-4">
+            <label for="inputState">State</label>
+            <input type="text" class="form-control" id="inputState" value="<%= results.state%>" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputCity">City</label>
+            <input type="text" class="form-control" id="inputCity" value="<%= results.city%>" readonly>
+
+          </div>
+          <!-- <div class="form-group col-md-2">
+            <label for="inputZip">Zip</label>
+            <input type="text" class="form-control" id="inputZip">
+          </div> -->
+        </div>
+        <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="inputAddress" value="<%= results.address%>" readonly>
+              </div>
+              <a class="btn btn-outline-primary" href="login">LOGOUT</a> 
+        </form>
+        </div>
+
+      
