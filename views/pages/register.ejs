@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    
+
     <style>
         .h1 {
             color: lightslategrey;
@@ -54,7 +54,7 @@
             width: 100%;
         }
 
-      
+
 
         .form ul li input[type="button"],
         .form ul li input[type="submit"] {
@@ -78,83 +78,70 @@
         }
     </style>
 </head>
+
 <body>
-        <%  include ../index.ejs%>
+    <%  include ../index.ejs%>
+
+    <% if(error != ''){ %>
+    <div class="container">
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+            <%= error%>
+        </div>
+    </div>
+    <% }%>
 
 
 
-      
-
-        <h1 class="h1">Registration-page</h1>
-        <form class="form" action="/user/register" method="post"  name="form" onsubmit="return validateform()" >
-            <input type="hidden" id="hidden">
-    
-    
-            <ul>
-                
-                <li>Name<input type="text" name="name" class="field-style field-split " placeholder="Eg-Renu Manral" /></li>
-    
-                <li>Email <input type="email" name="email" class="field-style field-split "
-                        placeholder="Eg-renu@prolitus.com"  /></li>
-                <li>Password <input type="password"  id="password" name="password" class="field-style field-split "
-                        placeholder="Your Wish"  /></li>
-                <li>Phone<input type="number" name="phone" class="field-style field-split " placeholder="Eg-9999999999" />
-                </li>
-                <li>Country<input type="text" name="country" class="field-style field-split " placeholder="Eg-India" /></li>
-                <li>State<input type="text" name="state" class="field-style field-split " placeholder="Eg-Uttarakhand" />
-                </li>
-                <li>City<input type="text" name="city" class="field-style field-split " placeholder="Eg-Almora" /></li>
-    
-                <li>Hobbies</li>
-                <li>Playing<input type="checkbox" name="hobbies" value="playing" />
-                    Cooking<input type="checkbox" name="hobbies" value="cooking" />
-                    Dancing<input type="checkbox" name="hobbies" value="dancing" />
-                    Singing<input type="checkbox" name="hobbies" value="singing" /></li>
-                <hr>
-    
-                <li>Marital Status</li>
-                <li><input type="radio" name="status" value="married">Married<input type="radio" name="status"
-                        value="single">Single</li>
-                <hr>
-    
-                <li>Gender</li>
-                <li><input type="radio" name="gender" value="Male">Female<input type="radio" name="gender" value="Male">Male
-                </li>
-    
-                <li>Address<input type="text" name="address" class="field-style field-split "
-                        placeholder="Eg-Sector 2,Noida,Prolitus technologies" required /></li>
-                <li>Address Line 1<input type="text" name="addres1" class="field-style field-split "
-                        placeholder="Flat No." /></li>
-                <li>Pin-Code<input type="number" name="pin" class="field-style field-split " placeholder="110092" /></li>
-                <!-- <li>Image <input type="file" name="profile" accept="" required/></li> -->
-                <li><input type="submit" name="submit" value="Send" ></li>
-    
-            </ul>
-        </form>
-
-          <script>
-  function validateform(){  
-var name=document.form.name.value;  
-var password=document.form.password.value;  
-  
-if (name==null || name==""){  
-  alert("Name can't be blank");  
-  return false;  
-}else if(password.length<6){  
-  alert("Password must be at least 6 characters long.");  
-  return false;  
-  }  
-}  
-
-</script>
+    <h1 class="h1">Registration-page</h1>
+    <form class="form" action="/user/register" method="post" name="form" enctype="multipart/form-data">
+        <input type="hidden" id="hidden">
 
 
+        <ul>
 
-    
-   
+            <li>Name<input type="text" name="name" class="field-style field-split " placeholder="Eg-Renu Manral" /></li>
 
-              
-    
-        
-    </body>
-    </html>
+            <li>Email <input type="email" name="email" class="field-style field-split "
+                    placeholder="Eg-renu@prolitus.com" /></li>
+            <li>Password <input type="password" id="password" name="password" class="field-style field-split "
+                    placeholder="Your Wish" /></li>
+            <li>Phone<input type="number" name="phone" class="field-style field-split " placeholder="Eg-9999999999" />
+            </li>
+            <li>Country<input type="text" name="country" class="field-style field-split " placeholder="Eg-India" /></li>
+            <li>State<input type="text" name="state" class="field-style field-split " placeholder="Eg-Uttarakhand" />
+            </li>
+            <li>City<input type="text" name="city" class="field-style field-split " placeholder="Eg-Almora" /></li>
+
+            <li>Hobbies</li>
+            <li>Playing<input type="checkbox" name="hobbies" value="playing" />
+                Cooking<input type="checkbox" name="hobbies" value="cooking" />
+                Dancing<input type="checkbox" name="hobbies" value="dancing" />
+                Singing<input type="checkbox" name="hobbies" value="singing" /></li>
+            <hr>
+
+            <li>Marital Status</li>
+            <li><input type="radio" name="status" value="married">Married<input type="radio" name="status"
+                    value="single">Single</li>
+            <hr>
+
+            <li>Gender</li>
+            <li><input type="radio" name="gender" value="Male">Female<input type="radio" name="gender" value="Male">Male
+            </li>
+
+            <li>Address<input type="text" name="address" class="field-style field-split "
+                    placeholder="Eg-Sector 2,Noida,Prolitus technologies"  /></li>
+            <li>Address Line 1<input type="text" name="addres1" class="field-style field-split "
+                    placeholder="Flat No." /></li>
+            <li>Pin-Code<input type="number" name="pin" class="field-style field-split " placeholder="110092" /></li>
+            <li>Image <input type="file" name="profile" accept="" required/></li>
+            <li><input type="submit" name="submit" value="Send"></li>
+
+        </ul>
+    </form>
+
+
+</body>
+
+</html>

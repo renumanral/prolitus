@@ -1,0 +1,151 @@
+
+<html>
+
+<% include ../include/header.ejs%>
+<% include ../include/modal1.ejs%>
+<% include ../include/admin_nav.ejs %>
+
+<link href="/resource/css/style.css" rel="stylesheet" type="text/css">
+<% if(success != ''){ %>
+    <div class="container">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+            <%= success%>
+        </div>
+    </div>
+    <% }%>
+
+    <a class="btn btn-outline-primary" href="/admin/name" style="float: right">Sort by name</a> 
+
+    
+    <h1 align="center"> <u>ADMIN CORNER</u></h1><br>
+   
+        <div class="table-responsive">
+
+    <table align="center" border="2" cellpadding= "10" style="border-radius: 25px">
+           
+          
+            <th class="table-dark">Block/<br>Unblock<br>multiple</th>
+          
+           <th class="table-dark">Name</th>
+            <th class="table-dark">Email</th>
+            <th class="table-dark">Phone</th>
+            <th class="table-dark">Country</th>
+            <th class="table-dark">State</th>
+            <th class="table-dark">City</th>
+            <th class="table-dark"> Hobbies</th>
+            <th class="table-dark">Marital Status</th>
+            <th class="table-dark">Gender</th>
+            <th class="table-dark">Address</th>
+            <th class="table-dark"> Temporary Address</th>
+            <th class="table-dark">Pin</th>
+            <th class="table-dark">Picture</th>
+
+            <th class="table-dark">Action</th>
+
+
+
+        
+          
+    <% if(result && result.length > 0){ %>
+        <%for(var i=0; i < result.length; i++){%>
+        <tr >
+          <!-- <td class="table-info">
+            <%= result[i].id %> -->
+            <td class="table-info"><input type="checkbox"></td>
+    
+          </td>
+          <td class="table-secondary">
+            <%= result[i].name %>
+    
+          </td>
+          <td class="table-info">
+            <%= result[i].email %>
+    
+          </td>
+          
+          <td class="table-secondary"><%= result[i].phone %> </td>
+          <td class="table-info"><%= result[i].country %> </td>
+          <td class="table-secondary"><%= result[i].state %> </td>
+          <td class="table-info"><%= result[i].city %> </td>
+          <td class="table-secondary"><%= result[i].hobbies %> </td>
+          <td class="table-info"><%= result[i].marital_status %> </td>
+          <td class="table-secondary"><%= result[i].gender %> </td>
+          <td class="table-info"><%= result[i].address %> </td>
+          <td class="table-secondary"><%= result[i].address1%> </td>
+          <td class="table-info"><%= result[i].pin %> </td>
+          <td class="table-secondary"><img height="100" width="100" src="/uploads/<%= result[i].filename %>" </td>
+
+
+          <% if(result[i].status == 1){ %>
+          <td  class="table-info">
+            <input type="submit" class="button" id="<%= result[i].id %>" value="Block" data-toggle="modal"
+              data-target="#myModal" onclick="block(<%= result[i].id %>,0)">
+          </td>
+          <%} else {%>
+          <td  class="table-info">
+            <input type="submit" class="button1" id="<%= result[i].id %>" value="Unblock" data-toggle="modal"
+              data-target="#myModal" onclick="block(<%= result[i].id %>,1)">
+          </td> %>
+    
+          
+          <%  }%>
+    
+          <!-- <td  class="table-info">
+            <input type="checkbox" class="button1" id="<%= result[i].id %>" value="Unblock" data-toggle="modal"
+              data-target="#myModal" onclick="(<%= result[i].id %>,1)">
+          </td> -->
+        </tr>
+    
+        
+    
+        <% } %>
+        <% }%>
+        
+</table>
+<div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+  
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Are you sure..</h4>
+            </div>
+            <div class="modal-body">
+              <p>You want to block/Unblock the user</p>
+            </div>
+            <div class="modal-footer">
+              <!-- form -->
+              <form method="post" action="/admin/block">
+                <!-- <h5>User with respective id  will not be able to login again</h5><br> -->
+                <input type="hidden" id="div1" value="" name="hidden">
+                <input type="hidden" id="div2" value="" name="hidden1">
+  
+  
+                <input type="submit" name="submit" value="Confirm">
+  
+                <input type="button" data-dismiss="modal" value="Close"></button>
+  
+  
+              </form>
+  
+              <!-- form -->
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+</div>
+
+
+<script>
+        function block(x, y) {
+          document.getElementById('div1').value = x;
+          document.getElementById('div2').value = y;
+      
+        }
+        </script>
+</html>

@@ -2,132 +2,234 @@
 <% include ../include/nav2.ejs%>
 <% include ../include/style.ejs%>
 <% include ../include/modal1.ejs%>
-<h3 class="display-4" align=center><u>Editing Panel</u></h3><br>
+<link href="/resource/css/style.css" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+<% if(success != ''){ %>
+<div class="container">
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+    <%= success%>
+  </div>
+</div>
+<% }%>
+
+<% if(error != ''){ %>
+<div class="container">
+  <div class="alert alert-warning alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+    <%= error%>
+  </div>
+</div>
+<% }%>
+
+
+<div class="image" style="float:right;margin-right: 40px;margin-top: 10px">
+  <img onclick="photo(<%= results.id %>)" data-target="#change" data-toggle="modal" id="<%= results.id%>"
+    style=" width: 100px; height: 100px;" src="/uploads/<%= results.filename %>" alt="Profile_Image"><br>
+
+
+
+</div>
+
+<h3 class="display-4" align=center><u>Editing Panel</u></h3><br><br>
 
 <div class="container">
 
-<form action="/user/update" method="post">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4" name="email" value="<%= results.email%>" readonly>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputPassword4">Name</label>
-            <input type="text" class="form-control" id="inputPassword4" name="name" value="<%= results.name%>" >
-          </div>
-        </div>
-    
-     
+  <form action="/user/update" method="post">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Email</label>
+        <input type="email" class="form-control" id="inputEmail4" name="email" value="<%= results.email%>" readonly>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Name</label>
+        <input type="text" class="form-control" id="inputPassword4" name="name" value="<%= results.name%>">
+      </div>
+    </div>
 
-        <div class="form-row">
-                <div class="form-group col-md-4">
-                        <label for="inputPhone">Phone</label>
-                        <input type="number" class="form-control" id="inputPhone" name="phone" value="<%= results.phone%>" >
-                        </div>
-                      
-                
-          <div class="form-group col-md-4">
-            <label for="inputHobbies">Hobbies</label>
-            <input type="text" class="form-control" id="inputHobbies" name="hobbies" value="<%= results.hobbies%>">
-          </div>
-          <div class="form-group col-md-4">
-            <label for="inputGender">Gender</label>
-            <input type="text" class="form-control" id="inputGender"  name="gender" value="<%= results.gender%>" >
 
-          </div>
-          </div>
 
-          <div class="form-row">
-                <div class="form-group col-md-6">
-                        <label for="inputStatus">Marital Status</label>
-                        <input type="text" class="form-control" id="inputStatus" name="marital_status" value="<%= results.marital_status%>" >
-                      </div>
-          <div class="form-group col-md-6">
-            <label for="inputPin">Pin</label>
-            <input type="number" class="form-control" id="inputPin"  name="pin" value="<%= results.pin%>" >
-          </div>
-          </div>
-      
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="inputPhone">Phone</label>
+        <input type="number" class="form-control" id="inputPhone" name="phone" value="<%= results.phone%>">
+      </div>
 
-        <div class="form-row">
-                <div class="form-group col-md-4">
-                        <label for="inputCountry">Country</label>
-                        <input type="text" class="form-control" id="inputCountry" name="country" value="<%= results.country%>" >
-                      </div>
-          <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <input type="text" class="form-control" id="inputState" name="state" value="<%= results.state%>">
-          </div>
-          <div class="form-group col-md-4">
-            <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="inputCity" name="city" value="<%= results.city%>">
 
-          </div>
-          <!-- <div class="form-group col-md-2">
-            <label for="inputZip">Zip</label>
-            <input type="text" class="form-control" id="inputZip">
-          </div> -->
-        </div>
-        <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" class="form-control" id="inputAddress" name="address" value="<%= results.address%>">
-              </div>
-              <input type="submit" value="UPDATE"> 
+      <div class="form-group col-md-4">
+        <label for="inputHobbies">Hobbies</label>
+        <input type="text" class="form-control" id="inputHobbies" name="hobbies" value="<%= results.hobbies%>">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputGender">Gender</label>
+        <input type="text" class="form-control" id="inputGender" name="gender" value="<%= results.gender%>">
 
-              <!-- <input type="submit" class="button"  value="Block" data-toggle="modal" data-target="#myModal"> -->
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputStatus">Marital Status</label>
+        <input type="text" class="form-control" id="inputStatus" name="marital_status"
+          value="<%= results.marital_status%>">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPin">Pin</label>
+        <input type="number" class="form-control" id="inputPin" name="pin" value="<%= results.pin%>">
+      </div>
+    </div>
+
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="inputCountry">Country</label>
+        <input type="text" class="form-control" id="inputCountry" name="country" value="<%= results.country%>">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputState">State</label>
+        <input type="text" class="form-control" id="inputState" name="state" value="<%= results.state%>">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputCity">City</label>
+        <input type="text" class="form-control" id="inputCity" name="city" value="<%= results.city%>">
+
+      </div>
+
+    </div>
+    <div class="form-group">
+      <label for="inputAddress">Address</label>
+      <input type="text" class="form-control" id="inputAddress" name="address" value="<%= results.address%>">
+    </div>
+    <input type="submit" value="UPDATE">
+
+    <!-- <input type="submit" class="button"  value="Block" data-toggle="modal" data-target="#myModal"> -->
+  </form>
+  <input type="submit" class="buttton" id="<%= results.id%>" value="Change password" data-toggle="modal"
+    data-target="#myModal" onclick="password(<%= results.id %>)">
+  <!--   
+  <input type="submit" class="buttton" id="<%= results.id%>" value="Change Picture" data-toggle="modal"
+  data-target="#change" onclick="photo(<%= results.id %>)"> -->
+
+</div>
+
+
+
+
+
+<!--update -->
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure..</h4>
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+
+        <!-- modal form -->
+        <form action="/user/confirm" method="post">
+          Current password : <input type="text" id="current1" name="current"> <br> <br>
+          New password : <input type="text" id="new1" name="new"> <br> <br>
+          Confirm new password : <input type="text" id="confirm1" name="confirm"> <br> <br>
+
+          <input type="hidden" id="div1" value="" name="hidden">
+
+
+          <input type="submit" name="submit" value="Confirm">
+
+          <input type="button" data-dismiss="modal" value="Close"></button>
+
         </form>
-        </div>
+      </div>
+      <div class="modal-footer">
 
-        <input type="submit" class="button" id="<%= results.id%>"  value="Change password" data-toggle="modal" data-target="#myModal" onclick="password(<%= results.id %>)" style="margin-left: 95px">
+      </div>
+    </div>
 
-
-
-
-
-
-
-        <div class="modal fade" id="myModal" role="dialog">
-          <div class="modal-dialog">
-    
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Are you sure..</h4>
-              </div>
-              <div class="modal-body">
+  </div>
+</div>
 
 
-                <!-- modal form -->
-                <form  action="/user/confirm" method="post">
-                Current password<input type="text" id="current1" name="current">   <br>   <br>            
-               New password<input type="text" id="new1" name="new">             <br>       <br>     
-               Confirm new password<input type="text" id="confirm1" name="confirm">    <br>       <br>     
-                
-                <input type="hidden" id="div1" value="" name="hidden">
 
-                
-                <input type="submit" name="submit" value="Confirm">
-    
-                <input type="button" data-dismiss="modal" value="Close"></button>
-  
-                  </form>
-              </div>
-              <div class="modal-footer">
-               
-              </div>
-            </div>
-    
+
+
+<!-- photo -->
+<div class="modal fade" id="change" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <!-- <h4 class="modal-title">Are you sure..</h4> -->
+      </div>
+      <div class="modal-body">
+
+
+        <!-- modal form -->
+        <form action="/user/picture" method="post" enctype="multipart/form-data">
+          <input type="hidden" id="div2" name="hidden3">
+
+          <img src="/uploads/avatar.jpeg" id="profile-img-tag" width="200px" style="float: left" />
+
+
+          <div class="profile">
+            <input type="file" class="profile" name="profile" id="profile-img">
+
           </div>
-        </div>
 
 
-        <script>
-        function password(x){
-            
-            document.getElementById('div1').value=x;
 
-        }
-        
-        </script>
+
+
+          <input type="submit" name="submit" value="Update Photo"
+            style="float:left;margin-top:30px;margin-right: 400px;height:40px;width:100px;border-radius:10px">
+
+          <!-- <input type="button" data-dismiss="modal" value="Close"></button> -->
+
+        </form>
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  function password(x) {
+
+    document.getElementById('div1').value = x;
+
+  }
+
+  function photo(y) {
+    document.getElementById('div2').value = y;
+
+  }
+
+
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#profile-img-tag').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#profile-img").change(function () {
+    readURL(this);
+  });
+</script>
