@@ -5,6 +5,7 @@ const db = require("./config/db");
 var bodyParser = require("body-parser");
 var flash = require("connect-flash");
 
+
 // Configure middleware
 app.use(express.static("./public"));
 app.use(bodyParser.urlencoded({ extented: false }));
@@ -17,9 +18,6 @@ app.use(
     saveUninitialized: true
   })
 );
-
-
-
 
 //ejs
 app.set("views", __dirname + "/views");

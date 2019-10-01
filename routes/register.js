@@ -2,6 +2,8 @@ const express = require("express");
 var router = express.Router();
 var db = require("../config/db");
 var multer = require("multer");
+var speakeasy = require("speakeasy");
+var QRCode = require("qrcode");
 
 const DIR = "public/uploads";
 let storage = multer.diskStorage({
@@ -18,6 +20,7 @@ let storage = multer.diskStorage({
 let upload = multer({ storage: storage });
 
 router.get("/register", function(req, res) {
+ 
   res.render("pages/register.ejs", {
     title: "Registration"
   });
@@ -46,9 +49,11 @@ router.post("/register", upload.single("profile"), function(req, res) {
       check.push(controls);
 
       console.log(check, "%$%$%$%$%$%$");
+      var secret = speakeasy.generateSecret({ length: 30 });
 
+      console.log("secret.base32 : " + secret.base32);
       let insertQuery =
-        "INSERT INTO details (name, email, password, phone,country,state,city,hobbies,marital_status, gender,address, address1,pin,filename) VALUES ('" +
+        "INSERT INTO details (name, email, password, phone,country,state,city,hobbies,marital_status, gender,address, address1,pin,filename,twofa) VALUES ('" +
         name +
         "', '" +
         email +
@@ -76,6 +81,8 @@ router.post("/register", upload.single("profile"), function(req, res) {
         pin +
         "', '" +
         file +
+        "', '" +
+        secret.base32+
         "')";
 
       console.log("Data:  " + insertQuery);
@@ -128,26 +135,56 @@ router.post("/register", upload.single("profile"), function(req, res) {
 });
 
 router.get("/login", function(req, res) {
-  res.render("pages/login.ejs");
+   res.render("pages/login.ejs");
+
 });
 
 router.post("/login", function(req, res) {
-  if (req.body.email && req.body.password) {
-    var sql = "SELECT * FROM details where email=? AND password=? AND status=?";
-    db.query(sql, [req.body.email, req.body.password, 1], function(err, results ) {
-      if (results.length > 0) {
-        req.session.logged = true;
-        req.session.email = req.body.email;
-        res.redirect("/user/profile");
-      } else {
-        req.flash("error", "Try again with right credentials");
-        res.redirect("/user/login");
-      }
-    });
-  } else {
+
+  if (!req.body.email || !req.body.password || !req.body.token) {
     req.flash("error", "Please fill credentials");
     res.redirect("/user/login");
   }
+  
+  
+  else {
+    var sql = "SELECT * FROM details where email=?  ";
+    db.query(sql, [req.body.email, req.body.password], function(err, results) {
+      console.log(results[0].twofa);
+      var token = speakeasy.totp({
+        secret: results[0].twofa,
+        encoding: 'base32',
+    });
+
+    console.log('token : ' + token, req.body.token == token);
+
+
+
+
+      if (results[0].status == 0) {
+        req.flash("error", "You are a Blocked User");
+        res.redirect("/user/login");
+      }
+      
+      else if(req.body.token != token){
+        req.flash("error", "Wrong token");
+        res.redirect("/user/login");
+      }
+      else if (req.body.password != results[0].password) {
+        req.flash("error", "Try again with right credentials");
+        res.redirect("/user/login");
+      }
+      
+      
+      else {
+        req.session.logged = true;
+        req.session.email = req.body.email;
+       
+        res.redirect("/user/profile");
+      }
+    });
+  }
+})
 
   router.get("/profile", function(req, res) {
     var email = req.session.email;
@@ -243,20 +280,17 @@ router.post("/login", function(req, res) {
   });
 
   router.post("/picture", upload.single("profile"), function(req, res) {
-    
     if (!req.file) {
       req.flash("error", "PLease select Picture");
       res.redirect("/user/update");
     } else {
-      if (req.file.size > 20000) {
-        req.flash("error", "Picture size must be less than 7000 bytes");
-        res.redirect("/user/update");
-      }
-      else if(req.file.mimetype != "jpg"  || req.file.mimetype != "jpeg" ||req.file.mimetype != "png"){
+      if (!req.file.filename.split(".")[1].match(/(jpg|jpeg|png)/)) {
         req.flash("error", "Image must be only in jpeg,jpg and png format");
         res.redirect("/user/update");
-      }
-      else {
+      } else if (req.file.size > 7000) {
+        req.flash("error", "Picture size must be less than 7000 bytes");
+        res.redirect("/user/update");
+      } else {
         var sql = "UPDATE details SET filename=? WHERE id=?";
 
         db.query(sql, [req.file.filename, req.body.hidden3], function(
@@ -270,6 +304,17 @@ router.post("/login", function(req, res) {
       }
     }
   });
-});
 
+router.get("/logout", function(req, res) {
+  console.log("destroyed", req.session);
+
+  req.session.destroy(function(req, resp, err) {
+    if (err) {
+      console.log("awzsexdrcftvgy", err);
+    } else {
+      console.log("destroyed");
+      res.redirect("login");
+    }
+  });
+});
 module.exports = router;
